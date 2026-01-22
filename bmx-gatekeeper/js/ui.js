@@ -6,12 +6,14 @@
 import { CONFIG } from './config.js';
 
 export class UIController {
-  constructor() {
+  constructor(gameController) {
+    this.gameController = gameController;
     this.elements = {
       scoreValue: document.getElementById('scoreValue'),
       livesValue: document.getElementById('livesValue'),
       highScoreValue: document.getElementById('highScoreValue'),
       emojiDisplay: document.getElementById('emojiDisplay'),
+      startButton: document.getElementById('startButton'),
       unlockButton: document.getElementById('unlockButton'),
       startOverlay: document.getElementById('startOverlay'),
       gameOverOverlay: document.getElementById('gameOverOverlay'),
@@ -25,14 +27,44 @@ export class UIController {
   }
 
   /**
-   * Setup event listeners for keyboard
+   * Setup event listeners for buttons and keyboard
    */
   setupEventListeners() {
-    // Keyboard support: Space or Enter to unlock
+    // Start button wiring
+    if (this.elements.startButton) {
+      this.elements.startButton.addEventListener('click', () => {
+        this.gameController.startGame();
+      });
+    }
+
+    // Unlock button wiring
+    if (this.elements.unlockButton) {
+      this.elements.unlockButton.addEventListener('click', () => {
+        this.gameController.handleUnlock();
+      });
+    }
+
+    // Restart button wiring
+    if (this.elements.restartButton) {
+      this.elements.restartButton.addEventListener('click', () => {
+        this.gameController.restartGame();
+      });
+    }
+
+    // Keyboard support: Space or Enter
     document.addEventListener('keydown', (e) => {
-      if ((e.code === 'Space' || e.code === 'Enter') && this.elements.unlockButton) {
+      if (e.code === 'Space' || e.code === 'Enter') {
         e.preventDefault();
-        this.elements.unlockButton.click();
+        
+        // If game is NOT active and startOverlay is visible, start game
+        if (!this.gameController.game.gameActive && 
+            !this.elements.startOverlay.classList.contains('hidden')) {
+          this.gameController.startGame();
+        }
+        // If game is active, handle unlock
+        else if (this.gameController.game.gameActive) {
+          this.gameController.handleUnlock();
+        }
       }
     });
   }
@@ -104,19 +136,5 @@ export class UIController {
     setTimeout(() => {
       this.elements.screen.classList.remove('door-animation');
     }, CONFIG.DOOR_ANIM_MS);
-  }
-
-  /**
-   * Add click listener to unlock button
-   */
-  onUnlockButtonClick(callback) {
-    this.elements.unlockButton.addEventListener('click', callback);
-  }
-
-  /**
-   * Add click listener to restart button
-   */
-  onRestartButtonClick(callback) {
-    this.elements.restartButton.addEventListener('click', callback);
   }
 }
