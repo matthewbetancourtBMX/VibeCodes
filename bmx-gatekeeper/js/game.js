@@ -17,13 +17,14 @@ export class GameEngine {
 
   /**
    * Load high score from localStorage
+   * If missing or invalid, initialize with HIGH_SCORE_SEED
    */
   loadHighScore() {
     const stored = localStorage.getItem(CONFIG.HIGH_SCORE_KEY);
-    if (stored === null) {
-      // Initialize with default high score
-      localStorage.setItem(CONFIG.HIGH_SCORE_KEY, CONFIG.INITIAL_HIGH_SCORE);
-      return CONFIG.INITIAL_HIGH_SCORE;
+    if (stored === null || isNaN(parseInt(stored, 10))) {
+      // Initialize with seed high score
+      localStorage.setItem(CONFIG.HIGH_SCORE_KEY, CONFIG.HIGH_SCORE_SEED);
+      return CONFIG.HIGH_SCORE_SEED;
     }
     return parseInt(stored, 10);
   }
@@ -78,7 +79,7 @@ export class GameEngine {
     this.emojiTimer = setInterval(() => {
       this.displayNewEmoji();
       callback(this.currentEmoji);
-    }, CONFIG.EMOJI_INTERVAL);
+    }, CONFIG.EMOJI_INTERVAL_MS);
   }
 
   /**
@@ -103,7 +104,7 @@ export class GameEngine {
     const correct = this.isSafeEmoji(this.currentEmoji);
 
     if (correct) {
-      this.score += CONFIG.POINTS_PER_CORRECT;
+      this.score += CONFIG.POINTS_PER_SAFE;
     } else {
       this.lives -= 1;
     }
