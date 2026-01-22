@@ -9,16 +9,7 @@ import { UIController } from './ui.js';
 class BMXGatekeeper {
   constructor() {
     this.game = new GameEngine();
-    this.ui = new UIController();
-    this.setupEventListeners();
-  }
-
-  /**
-   * Setup all event listeners
-   */
-  setupEventListeners() {
-    this.ui.onUnlockButtonClick(() => this.handleUnlock());
-    this.ui.onRestartButtonClick(() => this.restartGame());
+    this.ui = new UIController(this);
   }
 
   /**
