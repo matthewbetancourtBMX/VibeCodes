@@ -11,7 +11,6 @@ class BMXGatekeeper {
     this.game = new GameEngine();
     this.ui = new UIController();
     this.setupEventListeners();
-    this.ui.addFocusStyles();
   }
 
   /**
