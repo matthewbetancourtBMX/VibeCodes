@@ -16,7 +16,7 @@ export class UIController {
       startOverlay: document.getElementById('startOverlay'),
       gameOverOverlay: document.getElementById('gameOverOverlay'),
       finalScore: document.getElementById('finalScore'),
-      finalHighScore: document.getElementById('finalHighScore'),
+      highScoreFinal: document.getElementById('highScoreFinal'),
       restartButton: document.getElementById('restartButton'),
       screen: document.querySelector('.screen')
     };
@@ -25,10 +25,9 @@ export class UIController {
   }
 
   /**
-   * Setup event listeners for buttons and keyboard
+   * Setup event listeners for keyboard
    */
   setupEventListeners() {
-    // Button listeners will be attached by main.js
     // Keyboard support: Space or Enter to unlock
     document.addEventListener('keydown', (e) => {
       if ((e.code === 'Space' || e.code === 'Enter') && this.elements.unlockButton) {
@@ -53,7 +52,7 @@ export class UIController {
   }
 
   /**
-   * Update high score display
+   * Update high score display in HUD
    */
   updateHighScore(highScore) {
     this.elements.highScoreValue.textContent = highScore;
@@ -82,11 +81,11 @@ export class UIController {
   }
 
   /**
-   * Show game over overlay with final score
+   * Show game over overlay with final score and high score
    */
   showGameOverOverlay(finalScore, highScore) {
     this.elements.finalScore.textContent = finalScore;
-    this.elements.finalHighScore.textContent = highScore;
+    this.elements.highScoreFinal.textContent = highScore;
     this.elements.gameOverOverlay.classList.remove('hidden');
   }
 
@@ -104,7 +103,7 @@ export class UIController {
     this.elements.screen.classList.add('door-animation');
     setTimeout(() => {
       this.elements.screen.classList.remove('door-animation');
-    }, CONFIG.DOOR_ANIMATION_DURATION);
+    }, CONFIG.DOOR_ANIM_MS);
   }
 
   /**
@@ -119,23 +118,5 @@ export class UIController {
    */
   onRestartButtonClick(callback) {
     this.elements.restartButton.addEventListener('click', callback);
-  }
-
-  /**
-   * Add focus styles for accessibility
-   */
-  addFocusStyles() {
-    const buttons = [this.elements.unlockButton, this.elements.restartButton];
-    buttons.forEach(button => {
-      if (button) {
-        button.addEventListener('focus', () => {
-          button.style.outline = '2px solid #00b289';
-          button.style.outlineOffset = '2px';
-        });
-        button.addEventListener('blur', () => {
-          button.style.outline = 'none';
-        });
-      }
-    });
   }
 }
