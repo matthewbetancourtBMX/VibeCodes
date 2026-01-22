@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ButterflyMX Gatekeeper</title>
+    <title>BMX Gatekeeper</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -176,6 +176,7 @@
             bottom: 0;
             background: rgba(0, 0, 0, 0.9);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 100;
@@ -192,6 +193,15 @@
             font-size: 48px;
             font-weight: 700;
             text-align: center;
+        }
+
+        .subtitle-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            text-align: center;
+            margin-top: 12px;
         }
 
         .game-over-overlay {
@@ -264,6 +274,14 @@
             animation: doorOpen 0.6s ease-in-out;
         }
 
+        .disclaimer-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
         @media (max-width: 480px) {
             .device-container {
                 max-width: 95vw;
@@ -283,7 +301,7 @@
     <div class="device-container">
         <div class="device-bezel">
             <div class="camera-lens"></div>
-            <div class="screen">
+            <div class="screen" aria-label="BMX Gatekeeper game">
                 <div class="game-ui">
                     <div class="score">Score: <span id="scoreValue">0</span></div>
                     <div class="lives">Lives: <span id="livesValue">3</span></div>
@@ -297,6 +315,7 @@
 
                 <div class="start-overlay" id="startOverlay">
                     <div class="welcome-text">Welcome</div>
+                    <div class="subtitle-text">BMX Gatekeeper</div>
                 </div>
 
                 <div class="game-over-overlay hidden" id="gameOverOverlay">
@@ -306,7 +325,8 @@
                 </div>
             </div>
 
-            <div class="branding">ButterflyMX</div>
+            <div class="branding">BMX</div>
+            <div class="disclaimer-text">Unofficial fan-made game</div>
         </div>
     </div>
 
